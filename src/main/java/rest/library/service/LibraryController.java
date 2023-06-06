@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rest.library.model.Library;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,10 +30,11 @@ public class LibraryController {
     @GetMapping(value = "/books")
     public ResponseEntity<List<Library>> read() {
         final List<Library> library = libraryService.readAll();
+        final List<Library> emptyList = new ArrayList<>();
 
         return library != null &&  !library.isEmpty()
                 ? new ResponseEntity<>(library, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                : new ResponseEntity<>(emptyList, HttpStatus.OK);
     }
 
     @GetMapping(value = "/books/{id}")
@@ -46,7 +48,7 @@ public class LibraryController {
 
 
     @PutMapping(value = "/books/{id}")
-    public ResponseEntity<?> update(@PathVariable(name = "id") int id,
+    public ResponseEntity<?> update(@PathVariable(name = "id") String id,
                                     @RequestBody Library library) {
         final boolean updated = libraryService.update(library, id);
         return updated

@@ -3,22 +3,21 @@ package rest.library.service;
 import org.springframework.stereotype.Service;
 import rest.library.model.Library;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class LibraryServiceImpl implements LibraryService {
 
-    private static final Map<Integer, Library> BOOK_STORAGE = new HashMap<>();
+    private static final Map<String, Library> BOOK_STORAGE = new HashMap<>();
 
-    private static final AtomicInteger BOOK_ID = new AtomicInteger();
+    // private static final AtomicInteger BOOK_ID = new AtomicInteger();
+
+    UUID BOOK_ID = UUID.randomUUID();
 
     @Override
     public void create(Library library) {
-        final int bookId = BOOK_ID.incrementAndGet();
+        final String bookId = BOOK_ID.toString();
         library.setId(bookId);
         BOOK_STORAGE.put(bookId, library);
 
@@ -35,7 +34,7 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public boolean update(Library library, int id) {
+    public boolean update(Library library, String id) {
         if (BOOK_STORAGE.containsKey(id)) {
             library.setId(id);
             BOOK_STORAGE.put(id, library);

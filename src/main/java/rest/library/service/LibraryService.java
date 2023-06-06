@@ -17,7 +17,7 @@ public interface LibraryService {
 
     // update entity
 
-    boolean update(Library library, int id);
+    boolean update(Library library, String id);
 
     // delete entity
 
